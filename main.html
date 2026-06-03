@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOLIO — READ THE MARKET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ── CSS VARIABLES ── */
+:root {
+  --bg: #08090A;
+  --bg2: #0F1115;
+  --bg3: #14161A;
+  --border: #1A1D24;
+  --text: #F3F4F6;
+  --text2: #B0B4BC;
+  --text3: #5F646D;
+  --accent: #FFB800;
+  --accent2: #CC9400;
+  --green: #63C591;
+  --red: #E64A4A;
+  --yellow: #FFB800;
+  --radius: 8px;
+  --font: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+  --nav-h: 60px;
+  --bottom-h: 64px;
+}
+.light {
+  --bg: #F7F6F3;
+  --bg2: #FFFFFF;
+  --bg3: #F0EFE9;
+  --border: rgba(0,0,0,0.08);
+  --text: #1A1C1F;
+  --text2: #444850;
+  --text3: #666A73;
+  --accent: #0B4137;
+  --accent2: #0d5247;
+  --green: #2E7D52;
+  --red: #D32F2F;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── NAVIGATION ── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(8,9,10,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  z-index: 200;
+  display: flex; align-items: center;
+  padding: 0 40px;
+  gap: 40px;
+}
+.light #nav {
+  background: rgba(247,246,243,0.88);
+}
+
+/* LOGO */
+#logo {
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none; flex-shrink: 0;
+}
+#logo-bar {
+  width: 3px; height: 22px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: goldShimmer 3s ease-in-out infinite;
+}
+.light #logo-bar {
+  animation: greenShimmer 3s ease-in-out infinite;
+}
+@keyframes goldShimmer {
+  0%,100% { box-shadow: 0 0 4px rgba(255,184,0,0.3); opacity: 0.9; }
+  50%      { box-shadow: 0 0 12px rgba(255,184,0,0.9); opacity: 1; }
+}
+@keyframes greenShimmer {
+  0%,100% { box-shadow: 0 0 4px rgba(11,65,55,0.3); opacity: 0.9; }
+  50%      { box-shadow: 0 0 10px rgba(11,65,55,0.7); opacity: 1; }
+}
+#logo-text {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  animation: logoGlow 3s ease-in-out infinite;
+}
+@keyframes logoGlow {
+  0%,100% { text-shadow: 0 0 4px rgba(255,184,0,0.15); }
+  50%      { text-shadow: 0 0 12px rgba(255,184,0,0.5); }
+}
+.light #logo-text { animation: logoGlowGreen 3s ease-in-out infinite; }
+@keyframes logoGlowGreen {
+  0%,100% { text-shadow: 0 0 4px rgba(11,65,55,0.1); }
+  50%      { text-shadow: 0 0 10px rgba(11,65,55,0.4); }
+}
+
+/* NAV LINKS */
+#nav-links {
+  display: flex; align-items: center; gap: 4px;
+  flex: 1;
+}
+.nav-link {
+  font-size: 14px;
+  color: var(--text2);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  transition: color .15s, background .15s;
+  white-space: nowrap;
+}
+.nav-link:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+.nav-link.active { color: var(--accent); }
+.light .nav-link:hover { background: rgba(0,0,0,0.05); }
+
+/* NAV ACTIONS */
+#nav-actions {
+  display: flex; align-items: center; gap: 8px;
+}
+#nav-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--text3);
+  cursor: pointer;
+  min-width: 180px;
+}
+#nav-search input {
+  background: none; border: none; color: var(--text);
+  font-family: var(--font); font-size: 13px;
+  outline: none; width: 100%;
+}
+#nav-search input::placeholder { color: var(--text3); }
+.nav-icon-btn {
+  background: none; border: none; color: var(--text2);
+  cursor: pointer; padding: 8px; border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+  transition: color .15s, background .15s;
+}
+.nav-icon-btn:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+.light .nav-icon-btn:hover { background: rgba(0,0,0,0.05); }
+#theme-toggle { font-size: 16px; }
+
+/* ── MAIN CONTENT ── */
+#main {
+  margin-top: var(--nav-h);
+  padding-bottom: 40px;
+}
+
+/* ── HERO SECTION ── */
+#hero {
+  padding: 60px 40px 48px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 48px;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+#hero-left {}
+#hero-eyebrow {
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+#hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+#hero-desc {
+  font-size: 15px; color: var(--text2);
+  line-height: 1.75; margin-bottom: 28px;
+  max-width: 440px;
+}
+#hero-update {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text3);
+}
+#hero-update svg { opacity: 0.5; cursor: pointer; transition: opacity .15s; }
+#hero-update svg:hover { opacity: 1; }
+
+#hero-right {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+#hero-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+#hero-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(8,9,10,0.7) 0%, rgba(255,184,0,0.05) 100%);
+  display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 28px;
+}
+.light #hero-img-overlay {
+  background: linear-gradient(135deg, rgba(247,246,243,0.5) 0%, rgba(11,65,55,0.1) 100%);
+}
+#hero-img-quote {
+  font-family: var(--font-serif);
+  font-size: 18px; line-height: 1.5;
+  color: #fff;
+}
+
+/* ── 4-GRID DASHBOARD CARDS ── */
+#dashboard {
+  padding: 0 40px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.dash-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dash-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.dash-card-title {
+  font-size: 13px; font-weight: 600;
+  color: var(--text2); letter-spacing: 0.02em;
+}
+.dash-card-badge {
+  font-size: 10px; color: var(--text3);
+}
+.dash-card-link {
+  font-size: 11px; color: var(--accent);
+  text-decoration: none; opacity: 0.8;
+  transition: opacity .15s;
+}
+.dash-card-link:hover { opacity: 1; }
+
+/* Top 5 stocks */
+.stock-row {
+  display: flex; align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 10px;
+}
+.stock-row:last-child { border-bottom: none; }
+.stock-rank { font-size: 13px; color: var(--text3); width: 16px; text-align: center; flex-shrink: 0; }
+.stock-name { font-size: 13px; color: var(--text); flex: 1; }
+.stock-change { font-size: 13px; font-weight: 600; }
+.up { color: var(--red); }
+.down { color: #5b8cf5; }
+
+/* Rising stocks */
+.rising-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.rising-row:last-child { border-bottom: none; }
+.rising-name { font-size: 13px; color: var(--text); min-width: 80px; }
+.rising-rank {
+  font-size: 11px; color: var(--text3);
+  flex: 1; text-align: center;
+}
+.rising-arrow { font-size: 13px; font-weight: 700; color: var(--red); }
+
+/* Keywords */
+.keyword-cloud {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  flex: 1; align-content: flex-start;
+}
+.keyword-tag {
+  padding: 5px 11px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  font-size: 12px; color: var(--text2);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.keyword-tag:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+.keyword-tag.hot { background: rgba(255,184,0,0.12); border-color: rgba(255,184,0,0.3); color: var(--accent); }
+
+/* Market temp */
+.temp-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.temp-row:last-child { border-bottom: none; }
+.temp-sector { font-size: 13px; color: var(--text); flex: 1; }
+.temp-icons { display: flex; gap: 2px; }
+.temp-icon { font-size: 14px; }
+.temp-label { font-size: 12px; font-weight: 600; min-width: 56px; text-align: right; }
+.temp-hot { color: #FF6B35; }
+.temp-warm { color: #FFA500; }
+.temp-neutral { color: var(--text3); }
+.temp-cool { color: #5b8cf5; }
+
+/* ── SECTION HEADER ── */
+.section-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px 40px;
+}
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-size: 18px; font-weight: 600; color: var(--text);
+}
+.section-more {
+  font-size: 13px; color: var(--text3);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 4px;
+  transition: color .15s;
+}
+.section-more:hover { color: var(--accent); }
+
+/* ── NEWS GRID ── */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.news-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  display: flex; flex-direction: column;
+}
+.news-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+.light .news-card:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+.news-thumb {
+  width: 100%; aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  background: var(--bg3);
+  position: relative;
+}
+.news-thumb-placeholder {
+  width: 100%; aspect-ratio: 16/10;
+  background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; color: var(--border);
+}
+.news-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.news-headline {
+  font-size: 14px; font-weight: 600; color: var(--text);
+  line-height: 1.45;
+}
+.news-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.news-tag {
+  font-size: 11px; color: var(--text3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--bg3);
+}
+.news-time { font-size: 11px; color: var(--text3); margin-top: auto; }
+
+/* ── BOTTOM TWO COLUMNS ── */
+.two-col-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.col-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.col-card-header {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.col-card-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.col-card-body { padding: 4px 0; }
+
+/* Report list */
+.report-row {
+  display: flex; align-items: center;
+  padding: 12px 20px;
+  gap: 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .15s;
+}
+.report-row:last-child { border-bottom: none; }
+.report-row:hover { background: var(--bg3); }
+.report-num { font-size: 16px; font-weight: 700; color: var(--text3); width: 20px; flex-shrink: 0; }
+.report-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--bg3); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.report-name { font-size: 13px; color: var(--text); flex: 1; line-height: 1.4; }
+.report-views { font-size: 12px; color: var(--text3); white-space: nowrap; }
+.report-views svg { vertical-align: middle; margin-right: 2px; }
+
+/* New entrants */
+.entry-row {
+  display: flex; align-items: center;
+  padding: 12px 20px;
+  gap: 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .15s;
+}
+.entry-row:last-child { border-bottom: none; }
+.entry-row:hover { background: var(--bg3); }
+.entry-name { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+.entry-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 3px 7px; border-radius: 4px;
+  background: rgba(255,184,0,0.15); color: var(--accent);
+  border: 1px solid rgba(255,184,0,0.25);
+}
+.light .entry-badge {
+  background: rgba(11,65,55,0.1); color: var(--accent);
+  border-color: rgba(11,65,55,0.2);
+}
+.entry-rank { font-size: 12px; color: var(--text3); }
+.entry-footer {
+  padding: 12px 20px;
+  font-size: 11px; color: var(--text3);
+  border-top: 1px solid var(--border);
+}
+
+/* ── EMAIL SUBSCRIBE ── */
+#subscribe {
+  margin: 0 40px 40px;
+  max-width: 1200px;
+  margin-left: auto; margin-right: auto;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex; align-items: center;
+}
+#subscribe-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, var(--bg3) 40%, var(--bg2) 100%);
+  z-index: 0;
+}
+#subscribe-bg-img {
+  position: absolute; inset: 0;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300"><rect fill="%2308090A" width="800" height="300"/><circle cx="600" cy="150" r="200" fill="%23FFB800" opacity="0.04"/><circle cx="700" cy="80" r="120" fill="%23FFB800" opacity="0.03"/></svg>');
+  background-size: cover;
+  z-index: 0;
+}
+.light #subscribe-bg-img {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300"><rect fill="%23F0EFE9" width="800" height="300"/><circle cx="600" cy="150" r="200" fill="%230B4137" opacity="0.04"/></svg>');
+}
+#subscribe-content {
+  position: relative; z-index: 1;
+  padding: 48px 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; gap: 40px;
+}
+#subscribe-text {}
+#subscribe-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+#subscribe-sub { font-size: 14px; color: var(--text2); }
+#subscribe-form {
+  display: flex; gap: 10px; align-items: center;
+  flex-shrink: 0;
+}
+#subscribe-input {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-family: var(--font); font-size: 14px;
+  color: var(--text); outline: none;
+  min-width: 240px;
+  transition: border-color .2s;
+}
+#subscribe-input:focus { border-color: var(--accent); }
+#subscribe-input::placeholder { color: var(--text3); }
+#subscribe-btn {
+  background: var(--accent);
+  border: none; border-radius: var(--radius);
+  padding: 10px 22px;
+  font-family: var(--font); font-size: 14px; font-weight: 600;
+  color: #000; cursor: pointer;
+  transition: opacity .15s, transform .1s;
+  white-space: nowrap;
+}
+#subscribe-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ── FOOTER ── */
+#footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 32px 40px;
+}
+#footer-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+}
+#footer-logo { font-family: var(--font-serif); font-size: 16px; font-weight: 500; color: var(--text); }
+#footer-copy { font-size: 12px; color: var(--text3); }
+.footer-links { display: flex; align-items: center; gap: 20px; }
+.footer-link { font-size: 12px; color: var(--text3); text-decoration: none; transition: color .15s; }
+.footer-link:hover { color: var(--text); }
+.footer-socials { display: flex; gap: 10px; }
+.footer-social-btn {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 10px;
+  color: var(--text2); font-size: 13px; font-weight: 500;
+  cursor: pointer; text-decoration: none;
+  transition: color .15s, background .15s;
+}
+.footer-social-btn:hover { color: var(--text); background: var(--border); }
+
+/* ── MOBILE BOTTOM TAB BAR ── */
+#bottom-tab {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: var(--bottom-h);
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  z-index: 300;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tab-bar {
+  display: flex; height: 100%;
+}
+.tab-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px; cursor: pointer;
+  color: var(--text3);
+  font-size: 10px;
+  transition: color .15s;
+  background: none; border: none;
+  font-family: var(--font);
+}
+.tab-item.active { color: var(--accent); }
+.tab-item svg { width: 22px; height: 22px; }
+
+/* ── MOBILE NAV ── */
+#mobile-nav {
+  display: none;
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 52px;
+  background: rgba(8,9,10,0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  z-index: 200;
+  align-items: center;
+  padding: 0 16px;
+  justify-content: space-between;
+}
+.light #mobile-nav { background: rgba(247,246,243,0.92); }
+#mobile-logo {
+  font-family: var(--font-serif);
+  font-size: 18px; font-weight: 600;
+  color: var(--text); letter-spacing: 0.08em;
+  display: flex; align-items: center; gap: 6px;
+}
+.mobile-logo-bar {
+  width: 3px; height: 18px; background: var(--accent);
+  border-radius: 2px;
+  animation: goldShimmer 3s ease-in-out infinite;
+}
+.light .mobile-logo-bar { animation: greenShimmer 3s ease-in-out infinite; }
+.mobile-nav-right { display: flex; gap: 4px; }
+.mobile-nav-btn {
+  background: none; border: none; color: var(--text2);
+  cursor: pointer; padding: 7px; border-radius: 6px;
+  display: flex; align-items: center;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  #dashboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .news-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .two-col-wrap {
+    grid-template-columns: 1fr;
+  }
+  #hero {
+    grid-template-columns: 1fr;
+  }
+  #hero-right { display: none; }
+}
+
+@media (max-width: 768px) {
+  #nav { display: none; }
+  #mobile-nav { display: flex; }
+  #bottom-tab { display: flex; }
+
+  #main { margin-top: 52px; padding-bottom: calc(var(--bottom-h) + 16px); }
+
+  #hero {
+    padding: 28px 16px 20px;
+    grid-template-columns: 1fr;
+  }
+  #hero-right { display: none; }
+  #hero-title { font-size: 24px; }
+
+  #dashboard {
+    padding: 0 16px 24px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .section-wrap {
+    padding: 0 16px 28px;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .two-col-wrap {
+    padding: 0 16px 28px;
+    grid-template-columns: 1fr;
+  }
+
+  #subscribe {
+    margin: 0 16px 28px;
+    min-height: unset;
+  }
+  #subscribe-content {
+    flex-direction: column;
+    padding: 32px 24px;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  #subscribe-form {
+    flex-direction: column;
+    width: 100%;
+  }
+  #subscribe-input { min-width: unset; width: 100%; }
+  #subscribe-btn { width: 100%; text-align: center; }
+
+  #footer { padding: 24px 16px; }
+  #footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .footer-links { flex-wrap: wrap; gap: 12px; }
+}
+
+/* ── HERO IMAGE PLACEHOLDER SVG SCENE ── */
+.hero-scene {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #0F1115 0%, #14161A 50%, #0F1115 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.hero-scene::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(255,184,0,0.06) 0%, transparent 60%);
+}
+.hero-scene-text {
+  font-family: var(--font-serif);
+  font-size: 20px; line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  text-align: center; padding: 24px;
+  z-index: 1;
+}
+.hero-scene-accent { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ── PC NAVIGATION ── -->
+<nav id="nav">
+  <a href="main.html" id="logo">
+    <div id="logo-bar"></div>
+    <span id="logo-text">FOLIO</span>
+  </a>
+  <div id="nav-links">
+    <a href="main.html" class="nav-link active">홈</a>
+    <a href="#" class="nav-link">시장 인사이트</a>
+    <a href="index (4).html" class="nav-link">종목 분석</a>
+    <a href="#" class="nav-link">리포트</a>
+    <a href="#" class="nav-link">관심 종목</a>
+  </div>
+  <div id="nav-actions">
+    <div id="nav-search">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="종목 검색 (예: 삼성전자)">
+    </div>
+    <button class="nav-icon-btn" title="알림">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+    <button class="nav-icon-btn" id="theme-toggle" title="테마 전환" onclick="toggleTheme()">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ── MOBILE NAVIGATION ── -->
+<nav id="mobile-nav">
+  <div id="mobile-logo">
+    <div class="mobile-logo-bar"></div>
+    FOLIO
+  </div>
+  <div class="mobile-nav-right">
+    <button class="mobile-nav-btn" onclick="toggleTheme()">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <button class="mobile-nav-btn">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button class="mobile-nav-btn">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main id="main">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div id="hero-left">
+      <div id="hero-eyebrow">READ THE MARKET</div>
+      <h1 id="hero-title">오늘 시장은<br>무엇을 이야기하고<br>있을까</h1>
+      <p id="hero-desc">실시간 데이터 기반으로 시장의 흐름을 한눈에<br>10분마다 업데이트됩니다.</p>
+      <div id="hero-update">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        마지막 업데이트 10:20 AM
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      </div>
+    </div>
+    <div id="hero-right">
+      <div class="hero-scene">
+        <div class="hero-scene-text">
+          시장은 결국,<br>
+          사람들의 관심이 모이는 곳으로<br>
+          <span class="hero-scene-accent">흘러갑니다.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4-GRID DASHBOARD -->
+  <section id="dashboard">
+
+    <!-- 실시간 인기종목 TOP 5 -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <span class="dash-card-title">실시간 인기 종목 TOP 5</span>
+        <a href="#" class="dash-card-link">전체보기 ›</a>
+      </div>
+      <div>
+        <div class="stock-row"><span class="stock-rank">1</span><span class="stock-name">두산로보틱스</span><span class="stock-change up">+29.87%</span></div>
+        <div class="stock-row"><span class="stock-rank">2</span><span class="stock-name">LG전자</span><span class="stock-change up">+24.13%</span></div>
+        <div class="stock-row"><span class="stock-rank">3</span><span class="stock-name">삼성전자</span><span class="stock-change up">+8.21%</span></div>
+        <div class="stock-row"><span class="stock-rank">4</span><span class="stock-name">SK하이닉스</span><span class="stock-change up">+7.45%</span></div>
+        <div class="stock-row"><span class="stock-rank">5</span><span class="stock-name">한화에어로스페이스</span><span class="stock-change up">+6.23%</span></div>
+      </div>
+      <div class="dash-card-badge">10분마다 업데이트</div>
+    </div>
+
+    <!-- 급부상 종목 -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <span class="dash-card-title">급부상 종목</span>
+        <a href="#" class="dash-card-link">전체보기 ›</a>
+      </div>
+      <div>
+        <div class="rising-row">
+          <span class="rising-name">두산로보틱스</span>
+          <span class="rising-rank">27위 → 3위</span>
+          <span class="rising-arrow">↑ 24</span>
+        </div>
+        <div class="rising-row">
+          <span class="rising-name">LG전자</span>
+          <span class="rising-rank">18위 → 5위</span>
+          <span class="rising-arrow">↑ 13</span>
+        </div>
+        <div class="rising-row">
+          <span class="rising-name">HD현대</span>
+          <span class="rising-rank">31위 → 8위</span>
+          <span class="rising-arrow">↑ 23</span>
+        </div>
+        <div class="rising-row">
+          <span class="rising-name">NAVER</span>
+          <span class="rising-rank">21위 → 9위</span>
+          <span class="rising-arrow">↑ 12</span>
+        </div>
+        <div class="rising-row">
+          <span class="rising-name">한화에어로스페이스</span>
+          <span class="rising-rank">15위 → 6위</span>
+          <span class="rising-arrow">↑ 9</span>
+        </div>
+      </div>
+      <div class="dash-card-badge">30분 전과 비교</div>
+    </div>
+
+    <!-- 오늘의 시장 키워드 -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <span class="dash-card-title">오늘의 시장 키워드</span>
+      </div>
+      <div class="keyword-cloud">
+        <span class="keyword-tag hot">AI</span>
+        <span class="keyword-tag hot">엔비디아</span>
+        <span class="keyword-tag hot">휴머노이드</span>
+        <span class="keyword-tag">HBM</span>
+        <span class="keyword-tag">반도체</span>
+        <span class="keyword-tag">전력</span>
+        <span class="keyword-tag">젠슨황</span>
+        <span class="keyword-tag">로봇</span>
+        <span class="keyword-tag">방산</span>
+        <span class="keyword-tag">원전</span>
+        <span class="keyword-tag">전기차</span>
+        <span class="keyword-tag">2차전지</span>
+      </div>
+      <div class="dash-card-badge">10분마다 키워드 업데이트</div>
+    </div>
+
+    <!-- 시장 온도 -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <span class="dash-card-title">시장 온도</span>
+      </div>
+      <div>
+        <div class="temp-row">
+          <span class="temp-sector">AI</span>
+          <span class="temp-icons"><span class="temp-icon">🔥</span><span class="temp-icon">🔥</span><span class="temp-icon">🔥</span></span>
+          <span class="temp-label temp-hot">HOT</span>
+        </div>
+        <div class="temp-row">
+          <span class="temp-sector">반도체</span>
+          <span class="temp-icons"><span class="temp-icon">🔥</span><span class="temp-icon">🔥</span></span>
+          <span class="temp-label temp-warm">WARM</span>
+        </div>
+        <div class="temp-row">
+          <span class="temp-sector">방산</span>
+          <span class="temp-icons"><span class="temp-icon">🔥</span></span>
+          <span class="temp-label temp-warm">WARM</span>
+        </div>
+        <div class="temp-row">
+          <span class="temp-sector">원전</span>
+          <span class="temp-icons"><span class="temp-icon">🔥</span></span>
+          <span class="temp-label temp-neutral">NEUTRAL</span>
+        </div>
+        <div class="temp-row">
+          <span class="temp-sector">2차전지</span>
+          <span class="temp-icons"><span class="temp-icon">❄️</span></span>
+          <span class="temp-label temp-cool">COOL</span>
+        </div>
+        <div class="temp-row">
+          <span class="temp-sector">바이오</span>
+          <span class="temp-icons"><span class="temp-icon">❄️</span></span>
+          <span class="temp-label temp-cool">COOL</span>
+        </div>
+      </div>
+      <div class="dash-card-badge">10분마다 업데이트</div>
+    </div>
+
+  </section><!-- /dashboard -->
+
+  <!-- 오늘의 주요 이슈 -->
+  <div class="section-wrap">
+    <div class="section-header">
+      <h2 class="section-title">오늘의 주요 이슈</h2>
+      <a href="#" class="section-more">전체보기 ›</a>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card">
+        <div class="news-thumb-placeholder" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">
+          <span style="font-size:48px;">🤖</span>
+        </div>
+        <div class="news-body">
+          <div class="news-headline">젠슨 황 방한 기대감, 관련 종목 강세</div>
+          <div class="news-tags">
+            <span class="news-tag">#엔비디아</span>
+            <span class="news-tag">#방한</span>
+            <span class="news-tag">#AI</span>
+          </div>
+          <div class="news-time">10분 전</div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-thumb-placeholder" style="background:linear-gradient(135deg,#0d1117,#161b22);">
+          <span style="font-size:48px;">🦾</span>
+        </div>
+        <div class="news-body">
+          <div class="news-headline">휴머노이드 로봇 시장 확대, 수혜 기대감 확산</div>
+          <div class="news-tags">
+            <span class="news-tag">#로봇</span>
+            <span class="news-tag">#휴머노이드</span>
+            <span class="news-tag">#AI</span>
+          </div>
+          <div class="news-time">25분 전</div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-thumb-placeholder" style="background:linear-gradient(135deg,#0f2027,#203a43);">
+          <span style="font-size:48px;">💾</span>
+        </div>
+        <div class="news-body">
+          <div class="news-headline">HBM 수요 증가 전망, 반도체 업종 강세</div>
+          <div class="news-tags">
+            <span class="news-tag">#HBM</span>
+            <span class="news-tag">#반도체</span>
+            <span class="news-tag">#에모리</span>
+          </div>
+          <div class="news-time">40분 전</div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-thumb-placeholder" style="background:linear-gradient(135deg,#1a0a00,#2d1b00);">
+          <span style="font-size:48px;">⚛️</span>
+        </div>
+        <div class="news-body">
+          <div class="news-headline">원전 관련주, 글로벌 수주 기대감 지속</div>
+          <div class="news-tags">
+            <span class="news-tag">#원전</span>
+            <span class="news-tag">#수주</span>
+            <span class="news-tag">#에너지</span>
+          </div>
+          <div class="news-time">1시간 전</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 가장 많이 본 리포트 + 새로 진입한 종목 -->
+  <div class="two-col-wrap">
+
+    <div class="col-card">
+      <div class="col-card-header">
+        <span class="col-card-title">가장 많이 본 리포트</span>
+        <a href="#" class="dash-card-link">전체보기 ›</a>
+      </div>
+      <div class="col-card-body">
+        <div class="report-row">
+          <span class="report-num">1</span>
+          <div class="report-icon">🔵</div>
+          <span class="report-name">삼성전자 FOLIO 리포트</span>
+          <span class="report-views">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            12,843
+          </span>
+        </div>
+        <div class="report-row">
+          <span class="report-num">2</span>
+          <div class="report-icon">🟢</div>
+          <span class="report-name">두산로보틱스 FOLIO 리포트</span>
+          <span class="report-views">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            9,276
+          </span>
+        </div>
+        <div class="report-row">
+          <span class="report-num">3</span>
+          <div class="report-icon">🔷</div>
+          <span class="report-name">SK하이닉스 FOLIO 리포트</span>
+          <span class="report-views">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            7,541
+          </span>
+        </div>
+        <div class="report-row">
+          <span class="report-num">4</span>
+          <div class="report-icon">🟠</div>
+          <span class="report-name">LG전자 FOLIO 리포트</span>
+          <span class="report-views">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            6,328
+          </span>
+        </div>
+        <div class="report-row">
+          <span class="report-num">5</span>
+          <div class="report-icon">✈️</div>
+          <span class="report-name">한화에어로스페이스 FOLIO 리포트</span>
+          <span class="report-views">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            5,192
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-card">
+      <div class="col-card-header">
+        <span class="col-card-title">새로 진입한 종목</span>
+        <a href="#" class="dash-card-link">전체보기 ›</a>
+      </div>
+      <div class="col-card-body">
+        <div class="entry-row">
+          <span class="entry-name">두산로보틱스</span>
+          <span class="entry-badge">NEW</span>
+          <span class="entry-rank">3위 진입</span>
+        </div>
+        <div class="entry-row">
+          <span class="entry-name">HD현대</span>
+          <span class="entry-badge">NEW</span>
+          <span class="entry-rank">8위 진입</span>
+        </div>
+        <div class="entry-row">
+          <span class="entry-name">NAVER</span>
+          <span class="entry-badge">NEW</span>
+          <span class="entry-rank">9위 진입</span>
+        </div>
+        <div class="entry-row">
+          <span class="entry-name">LS ELECTRIC</span>
+          <span class="entry-badge">NEW</span>
+          <span class="entry-rank">12위 진입</span>
+        </div>
+        <div class="entry-row">
+          <span class="entry-name">포스코퓨처엠</span>
+          <span class="entry-badge">NEW</span>
+          <span class="entry-rank">15위 진입</span>
+        </div>
+      </div>
+      <div class="entry-footer">30분 전 기준 TOP 20 신규 진입</div>
+    </div>
+
+  </div>
+
+  <!-- EMAIL SUBSCRIBE -->
+  <div style="max-width:1280px;margin:0 auto;padding:0 40px 40px;">
+    <div id="subscribe">
+      <div id="subscribe-bg"></div>
+      <div id="subscribe-bg-img"></div>
+      <div id="subscribe-content">
+        <div id="subscribe-text">
+          <div id="subscribe-headline">매일 아침,<br>시장 인사이트를 이메일로<br>받아보세요.</div>
+          <div id="subscribe-sub">FOLIO가 엄선한 오늘의 시장 리포트</div>
+        </div>
+        <form id="subscribe-form" onsubmit="handleSubscribe(event)">
+          <input id="subscribe-input" type="email" placeholder="이메일 주소 입력">
+          <button id="subscribe-btn" type="submit">구독하기</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer id="footer">
+  <div id="footer-inner">
+    <div>
+      <div id="footer-logo">FOLIO</div>
+      <div id="footer-copy" style="margin-top:4px;">© 2024 FOLIO. All rights reserved.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#" class="footer-link">서비스 소개</a>
+      <a href="#" class="footer-link">이용약관</a>
+      <a href="#" class="footer-link">개인정보처리방침</a>
+      <a href="#" class="footer-link">문의하기</a>
+    </div>
+    <div class="footer-socials">
+      <a href="#" class="footer-social-btn">Twitter</a>
+      <a href="#" class="footer-social-btn">LinkedIn</a>
+      <a href="#" class="footer-social-btn">YouTube</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── MOBILE BOTTOM TAB BAR ── -->
+<div id="bottom-tab">
+  <div class="tab-bar">
+    <button class="tab-item active" onclick="setTab(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      홈
+    </button>
+    <button class="tab-item" onclick="setTab(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      검색
+    </button>
+    <button class="tab-item" onclick="setTab(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      리포트
+    </button>
+    <button class="tab-item" onclick="setTab(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      관심
+    </button>
+    <button class="tab-item" onclick="setTab(this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+      더보기
+    </button>
+  </div>
+</div>
+
+<script>
+// Theme toggle
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  localStorage.setItem('folio-theme', document.body.classList.contains('light') ? 'light' : 'dark');
+}
+
+// Persist theme
+(function() {
+  const saved = localStorage.getItem('folio-theme');
+  if (saved === 'light') document.body.classList.add('light');
+})();
+
+// Mobile tab
+function setTab(el) {
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Subscribe
+function handleSubscribe(e) {
+  e.preventDefault();
+  const input = document.getElementById('subscribe-input');
+  const btn = document.getElementById('subscribe-btn');
+  if (!input.value || !input.value.includes('@')) {
+    input.style.borderColor = 'var(--red)';
+    setTimeout(() => input.style.borderColor = '', 1500);
+    return;
+  }
+  btn.textContent = '구독 완료 ✓';
+  btn.style.background = 'var(--green)';
+  btn.style.color = '#fff';
+  input.value = '';
+  input.disabled = true;
+  btn.disabled = true;
+}
+
+// Subscribe section responsive fix
+function fixSubscribePadding() {
+  const sub = document.getElementById('subscribe');
+  if (!sub) return;
+  const wrap = sub.closest('[style]');
+  if (window.innerWidth <= 768) {
+    if (wrap) { wrap.style.padding = '0 16px 28px'; }
+  } else {
+    if (wrap) { wrap.style.padding = '0 40px 40px'; }
+  }
+}
+fixSubscribePadding();
+window.addEventListener('resize', fixSubscribePadding);
+</script>
+</body>
+</html>
