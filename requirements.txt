@@ -1,1 +1,13 @@
 gunicorn
+flask==3.0.3
+requests>=2.32.0
+beautifulsoup4==4.12.3
+google-genai
+gunicorn==22.0.0
+lxml==5.2.2
+yfinance
+apscheduler
+pymongo[srv]==4.7.2
+curl_cffi
+finance-datareader
+holidays
